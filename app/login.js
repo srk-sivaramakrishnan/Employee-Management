@@ -9,8 +9,13 @@ const Login = () => {
   const navigation = useNavigation(); // Initialize useNavigation hook
 
   const handleLogin = () => {
+    if (!employeeId || !password) {
+      setError('Please enter both Employee ID and Password');
+      return;
+    }
+
     // Implement your authentication logic here
-    if (employeeId === 'admin' && password === 'password') {
+    if (employeeId === '1234' && password === 'password') {
       // Successful login, navigate to the dashboard page
       navigation.navigate('Dashboard');
     } else {
@@ -25,15 +30,22 @@ const Login = () => {
       <TextInput
         style={styles.input}
         placeholder="Employee ID"
+        keyboardType="numeric" // Set keyboard type to numeric
         value={employeeId}
-        onChangeText={text => setEmployeeId(text)}
+        onChangeText={(text) => {
+          setEmployeeId(text);
+          setError(''); // Clear error message when typing
+        }}
       />
       <TextInput
         style={styles.input}
         placeholder="Password"
         secureTextEntry
         value={password}
-        onChangeText={text => setPassword(text)}
+        onChangeText={(text) => {
+          setPassword(text);
+          setError(''); // Clear error message when typing
+        }}
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
