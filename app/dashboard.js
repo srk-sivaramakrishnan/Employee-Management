@@ -4,7 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AddEmployee from '../components/AddEmployee';
 import RemoveEmployee from '../components/RemoveEmployee';
 import EmployeeDetails from '../components/EmployeeDetails';
-import Search from '../components/Search';
+import Search from '../components/Search'
 import Leave from '../components/Leave';
 
 const Dashboard = () => {
@@ -63,7 +63,7 @@ const Dashboard = () => {
             <Text style={styles.linkText}>Search</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Leave')}>
-            <Ionicons name="leave-outline" size={24} color="black" />
+            <Ionicons name="exit-outline" size={24} color="black" /> {/* Icon for leave */}
             <Text style={styles.linkText}>Leave</Text>
           </TouchableOpacity>
         </View>

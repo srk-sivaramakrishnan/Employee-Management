@@ -5,6 +5,10 @@ import axios from 'axios';
 const RemoveEmployee = () => {
   const [employeeId, setEmployeeId] = useState('');
   const [reason, setReason] = useState('');
+  
+  const screenHeight = Dimensions.get('window').height;
+  const reasonInputHeight = screenHeight * 0.2; // Set the height to 20% of the screen height
+  const screenWidth = Dimensions.get('window').width;
 
   const handleRemoveEmployee = () => {
     // Perform validation if necessary
@@ -30,30 +34,31 @@ const RemoveEmployee = () => {
     <View style={styles.container}>
       <Text style={styles.heading}>Remove Employee</Text>
       <TextInput
-        style={styles.input}
+        style={[styles.input, { width: screenWidth * 0.8 }]} // Set the width dynamically
         placeholder="Enter Employee ID"
         value={employeeId}
         onChangeText={setEmployeeId}
       />
       <TextInput
-        style={styles.input}
+        style={[styles.input, { width: screenWidth * 0.8, height: reasonInputHeight }]} // Set the width and height dynamically
         placeholder="Enter Reason"
         value={reason}
         onChangeText={setReason}
+        multiline // Allow multiline input
       />
       <Button title="Remove Employee" onPress={handleRemoveEmployee} />
     </View>
   );
 };
 
-const screenWidth = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   container: {
+    width: '100%',
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
+    paddingHorizontal: 20, // Add horizontal padding to the container
   },
   heading: {
     fontSize: 20,
@@ -61,12 +66,12 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: screenWidth * 0.8, // Set input width to 80% of screen width
-    height: 40,
+    width: '100%', // Set input width to 100% of parent width
+    height: 40, // Default height
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 5,
-    paddingHorizontal: 10,
+    padding: 10,
     marginBottom: 20,
   },
 });
