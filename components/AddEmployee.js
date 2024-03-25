@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions } from 'react-native'; // Import Alert
+import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions } from 'react-native';
 import axios from 'axios';
 
 const AddEmployee = () => {
@@ -27,23 +27,25 @@ const AddEmployee = () => {
     axios.post('http://192.168.199.131:5000/employee', employeeData)
       .then(response => {
         console.log('Employee added successfully:', response.data);
-        // Show popup message
         Alert.alert('Success', 'Employee added successfully');
-        // Reset form fields after adding employee
-        setName('');
-        setPhone('');
-        setEmail('');
-        setAddress('');
-        setEmployeeId('');
-        setQualification('');
-        setPosition('');
-        setSalary('');
+        // Clear input fields after adding employee
+        clearFields();
       })
       .catch(error => {
         console.error('Error adding employee:', error);
-        // Show error message if request fails
         Alert.alert('Error', 'Failed to add employee. Please try again.');
       });
+  };
+
+  const clearFields = () => {
+    setName('');
+    setPhone('');
+    setEmail('');
+    setAddress('');
+    setEmployeeId('');
+    setQualification('');
+    setPosition('');
+    setSalary('');
   };
 
   const renderInputWithLabel = (label, value, onChangeText) => (
@@ -59,7 +61,7 @@ const AddEmployee = () => {
 
   return (
     <View style={styles.container}>
-    
+      <Text style={styles.heading}>Add Employee</Text>
       {renderInputWithLabel('Name:', name, setName)}
       {renderInputWithLabel('Phone Number:', phone, setPhone)}
       {renderInputWithLabel('Email:', email, setEmail)}
@@ -85,18 +87,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   inputContainer: {
-    width: screenWidth * 0.8, // Set input container width to 80% of screen width
+    width: screenWidth * 0.8,
     marginBottom: 20,
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#333',
   },
   label: {
     fontSize: 16,
     marginBottom: 5,
-    fontWeight: 'bold', // Set fontWeight to bold
+    fontWeight: 'bold',
     color: '#333',
     textAlign: 'left',
   },
   input: {
-    width: '100%', // Set input width to 100%
+    width: '100%',
     height: 40,
     borderWidth: 1,
     borderColor: '#ccc',

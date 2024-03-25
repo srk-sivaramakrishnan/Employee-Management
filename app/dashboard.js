@@ -1,92 +1,73 @@
 import React, { useState } from 'react';
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity, Dimensions, TextInput, Button } from 'react-native';
-import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons'; // Import MaterialCommunityIcons
-import AddEmployee from './AddEmployee'; // Import the AddEmployee component
-import EmployeeDetails from './EmployeeDetails'; // Import the EmployeeDetails component
+import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import AddEmployee from '../components/AddEmployee';
+import RemoveEmployee from '../components/RemoveEmployee';
+import EmployeeDetails from '../components/EmployeeDetails';
+import Search from '../components/Search';
+import Leave from '../components/Leave';
 
 const Dashboard = () => {
-  const [selectedOption, setSelectedOption] = useState('AddEmployee');
-  const [showSidebar, setShowSidebar] = useState(false); // State to control sidebar visibility
+  const [selectedAction, setSelectedAction] = useState(null);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
-    setShowSidebar(!showSidebar);
+    setSidebarOpen(!sidebarOpen);
   };
 
-  const renderMainContent = () => {
-    switch (selectedOption) {
-      case 'AddEmployee':
-        return (
-          <AddEmployee />
-        );
-      case 'RemoveEmployee':
-        return <Text>Remove Employee Content</Text>; // Placeholder for now
-      case 'EmployeeDetails':
-        return <EmployeeDetails />;
-      default:
-        return null;
-    }
+  const handleSidebarLinkClick = (action) => {
+    setSelectedAction(action);
+    setSidebarOpen(false);
   };
-
-  const screenWidth = Dimensions.get('window').width;
-  const sidebarWidth = screenWidth * 0.3; // Set sidebar width to 30% of screen width
-  const mainContentWidth = screenWidth;
 
   return (
     <View style={styles.container}>
-      {/* Sidebar */}
-      {showSidebar && (
-        <View style={[styles.sidebar, { width: sidebarWidth }]}>
-          {/* Sticky sidebar with links */}
-          <View style={styles.sidebarLinks}>
-            {/* Add Employee link */}
-            <TouchableOpacity
-              style={styles.sidebarLink}
-              onPress={() => {
-                setSelectedOption('AddEmployee');
-                toggleSidebar(); // Hide sidebar after selecting an option
-              }}
-            >
-              <Ionicons name="person-add-outline" size={24} color="black" />
-              <Text style={styles.linkText}>Add Employee</Text>
-            </TouchableOpacity>
+      {/* Main content */}
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        {/* Content based on selected action */}
+        {selectedAction === 'AddEmployee' && <AddEmployee />}
+        {selectedAction === 'RemoveEmployee' && <RemoveEmployee />}
+        {selectedAction === 'EmployeeDetails' && <EmployeeDetails />}
+        {selectedAction === 'Search' && <Search />}
+        {selectedAction === 'Leave' && <Leave />}
+      </ScrollView>
 
-            {/* Remove Employee link */}
-            <TouchableOpacity
-              style={[styles.sidebarLink, { marginBottom: 10 }]}
-              onPress={() => {
-                setSelectedOption('RemoveEmployee');
-                toggleSidebar(); // Hide sidebar after selecting an option
-              }}
-            >
-              <Ionicons name="trash-outline" size={24} color="black" />
-              <Text style={styles.linkText}>Remove Employee</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={styles.sidebarLink}
-              onPress={() => {
-                setSelectedOption('EmployeeDetails');
-                toggleSidebar(); // Hide sidebar after selecting an option
-              }}
-            >
-              <Ionicons name="list-outline" size={24} color="black" />
-              <Text style={styles.linkText}>Employee Details</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
-
-      {/* Hamburger Menu */}
-      <TouchableOpacity style={styles.hamburgerMenu} onPress={toggleSidebar}>
-        <MaterialCommunityIcons name="menu" size={24} color="black" />
+      {/* Hamburger menu */}
+      <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
+        <Ionicons name="menu" size={24} color="black" />
       </TouchableOpacity>
 
-      {/* Main content */}
-      <ScrollView style={[styles.mainContent, { width: mainContentWidth }]}>
-        {renderMainContent()}
-        {/* Add Employee button */}
-        <Button title="Add Employee" onPress={() => setSelectedOption('AddEmployee')} />
-      </ScrollView>
+      {/* Sidebar */}
+      <Modal visible={sidebarOpen} transparent={true} animationType="slide">
+        <View style={styles.sidebar}>
+          {/* Close button for sidebar */}
+          <TouchableOpacity onPress={toggleSidebar} style={styles.closeButton}>
+            <Ionicons name="close" size={24} color="black" />
+          </TouchableOpacity>
+
+          {/* Sidebar content */}
+          <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('AddEmployee')}>
+            <Ionicons name="person-add-outline" size={24} color="black" />
+            <Text style={styles.linkText}>Add Employee</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('RemoveEmployee')}>
+            <Ionicons name="trash-outline" size={24} color="black" />
+            <Text style={styles.linkText}>Remove Employee</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('EmployeeDetails')}>
+            <Ionicons name="list-outline" size={24} color="black" />
+            <Text style={styles.linkText}>Employee Details</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Search')}>
+            <Ionicons name="search-outline" size={24} color="black" />
+            <Text style={styles.linkText}>Search</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Leave')}>
+            <Ionicons name="leave-outline" size={24} color="black" />
+            <Text style={styles.linkText}>Leave</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
     </View>
   );
 };
@@ -96,36 +77,39 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
   },
-  hamburgerMenu: {
-    position: 'absolute',
-    marginTop: 20,
-    marginLeft: 10,
-    zIndex: 2, // Ensure hamburger menu is above sidebar
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  mainContent: {
- 
-    backgroundColor: '#fff',
-   paddingTop: 33,
+  menuButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
   },
   sidebar: {
-    position: 'absolute',
+    width: 200,
     backgroundColor: '#f0f0f0',
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    position: 'absolute',
     top: 0,
     bottom: 0,
-    zIndex: 3, // Set z-index to 3 for sidebar
+    right: 0,
+    zIndex: 1,
   },
-  sidebarLinks: {
-    marginTop: 10, // Reduce the margin to fit hamburger icon
-    alignItems: 'center',
+  closeButton: {
+    alignSelf: 'flex-end',
+    marginRight: 10,
+    marginTop: 10,
   },
   sidebarLink: {
-    marginBottom: 20,
+    flexDirection: 'row',
     alignItems: 'center',
+    marginBottom: 20,
+    marginLeft: 10,
   },
   linkText: {
     fontSize: 12,
+    marginLeft: 10,
   },
 });
 
