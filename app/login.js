@@ -15,7 +15,7 @@ const Login = () => {
     }
 
     // Implement your authentication logic here
-    if (employeeId === '1234' && password === 'password') {
+    if (employeeId === '1234' && password === '1234') {
       // Successful login, navigate to the dashboard page
       navigation.navigate('Dashboard');
     } else {

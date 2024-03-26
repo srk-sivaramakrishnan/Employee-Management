@@ -47,18 +47,34 @@ app.delete('/employee/:id', (req, res) => {
   const { reason } = req.body;
 
   connection.query(
-    'DELETE FROM Employees WHERE employee_id = ?',
+    'SELECT * FROM Employees WHERE employee_id = ?',
     [employeeId],
     (err, results) => {
       if (err) {
-        console.error('Error removing employee:', err);
+        console.error('Error checking employee:', err);
         return res.status(500).json({ error: 'Internal Server Error' });
       }
-      console.log('Employee removed successfully');
-      res.status(200).json({ message: 'Employee removed successfully' });
+
+      if (results.length === 0) {
+        return res.status(404).json({ error: 'Employee not found' });
+      }
+
+      connection.query(
+        'DELETE FROM Employees WHERE employee_id = ?',
+        [employeeId],
+        (err, results) => {
+          if (err) {
+            console.error('Error removing employee:', err);
+            return res.status(500).json({ error: 'Internal Server Error' });
+          }
+          console.log('Employee Terminated successfully');
+          res.status(200).json({ message: 'Employee Terminated successfully' });
+        }
+      );
     }
   );
 });
+
 
 // Route to fetch a list of employees
 app.get('/api/employees', (req, res) => {
@@ -78,23 +94,57 @@ app.get('/api/employees', (req, res) => {
   });
 });
 
-// Get employees with search query
-app.get('/employees', (req, res) => {
-  let query = 'SELECT * FROM employees';
-  const { search } = req.query;
+// Route to fetch a list of employees
+app.get('/api/employees', (req, res) => {
+  // Construct SQL query to fetch all employees from the database
+  const query = 'SELECT * FROM employees';
 
-  if (search) {
-    query += ` WHERE Name LIKE '%${search}%' OR PhoneNumber LIKE '%${search}%' OR Position LIKE '%${search}%' OR Salary LIKE '%${search}%'`;
-  }
-
-  connection.query(query, (err, results) => {
-    if (err) {
-      console.error('Error fetching employees:', err);
-      res.status(500).json({ error: 'Internal server error' });
-      return;
+  // Execute the query to fetch employees from the database
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error querying MySQL:', error);
+      return res.status(500).json({ error: 'Internal server error' });
     }
+
+    // Send the fetched employees as a response
     res.json(results);
   });
+});
+
+
+//Search
+app.post('/api/search', (req, res) => {
+  const { searchText } = req.body;
+
+  // Check if searchText is provided
+  if (!searchText) {
+    return res.status(400).json({ error: 'Search text is required' });
+  }
+
+  // Construct SQL query to search for employees based on the provided search text
+  const query = `SELECT * FROM Employees WHERE name LIKE '%${searchText}%' OR employee_id LIKE '%${searchText}%' 
+  OR phone LIKE '%${searchText}%' OR position LIKE '%${searchText}%' OR salary LIKE '%${searchText}%'`;
+
+  // Execute the query
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error querying MySQL:', error);
+      return res.status(500).json({ error: 'Internal server error' });
+    }
+
+    // Return the results as JSON
+    res.json(results);
+  });
+});
+
+// Route to get the ID of the selected employee
+app.get('/api/getid', (req, res) => {
+  // Extract the employee ID from the query parameters
+  const employeeId = req.query.id;
+
+  // Assuming you have some logic to fetch the employee details from the database based on the ID
+  // For demonstration purposes, let's just send back the received employee ID
+  res.json({ employeeId });
 });
 
 

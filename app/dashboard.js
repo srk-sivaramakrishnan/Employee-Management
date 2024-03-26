@@ -4,8 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import AddEmployee from '../components/AddEmployee';
 import RemoveEmployee from '../components/RemoveEmployee';
 import EmployeeDetails from '../components/EmployeeDetails';
-import Search from '../components/Search'
-import Leave from '../components/Leave';
+import Search from '../components/Search';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Dashboard = () => {
   const [selectedAction, setSelectedAction] = useState(null);
@@ -29,7 +29,6 @@ const Dashboard = () => {
         {selectedAction === 'RemoveEmployee' && <RemoveEmployee />}
         {selectedAction === 'EmployeeDetails' && <EmployeeDetails />}
         {selectedAction === 'Search' && <Search />}
-        {selectedAction === 'Leave' && <Leave />}
       </ScrollView>
 
       {/* Hamburger menu */}
@@ -63,7 +62,7 @@ const Dashboard = () => {
             <Text style={styles.linkText}>Search</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Leave')}>
-            <Ionicons name="exit-outline" size={24} color="black" /> {/* Icon for leave */}
+            <MaterialIcons name="mail-outline" size={24} color="black" />
             <Text style={styles.linkText}>Leave</Text>
           </TouchableOpacity>
         </View>

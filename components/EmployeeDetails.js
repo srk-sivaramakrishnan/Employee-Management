@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, ActivityIndicator, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Dimensions, Linking } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://192.168.199.131:5000/employee');
+        const response = await axios.get('http://192.168.199.131:5000/api/employees');
         setEmployees(response.data);
         setLoading(false);
       } catch (error) {
         console.error('Error fetching employees:', error);
+        setError('Error fetching employees. Please try again.');
         setLoading(false);
       }
     };
@@ -25,36 +29,60 @@ const EmployeesList = () => {
     };
   }, []);
 
+  const handleEmployeePress = (employee) => {
+    if (selectedEmployee === employee) {
+      setSelectedEmployee(null);
+    } else {
+      setSelectedEmployee(employee);
+    }
+  };
+
+  const handleEditEmployee = (employee) => {
+    // Navigate to the /api/getid route with the selected employee's ID
+    Linking.openURL(`http://192.168.199.131:5000/api/getid?id=${employee.employee_id}`);
+  };
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
+  if (error) {
+    return (
+      <View style={styles.container}>
+        <Text style={styles.errorText}>{error}</Text>
+      </View>
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Employees List</Text>
-      {loading ? (
-        <ActivityIndicator size="large" color="#0000ff" />
-      ) : (
-        <ScrollView style={styles.scrollView} horizontal={true}>
-          <View style={styles.table}>
-            <View style={styles.tableRow}>
-              <Text style={[styles.headerCell, styles.cellWidth10]}>ID</Text>
-              <Text style={[styles.headerCell, styles.cellWidth20]}>Name</Text>
-              <Text style={[styles.headerCell, styles.cellWidth15]}>Phone Number</Text>
-              <Text style={[styles.headerCell, styles.cellWidth20]}>Position</Text>
-              <Text style={[styles.headerCell, styles.cellWidth25]}>Address</Text>
-              <Text style={[styles.headerCell, styles.cellWidth10]}>Salary</Text>
-            </View>
-            {employees.map((employee) => (
-              <View key={employee.EmployeeID} style={styles.tableRow}>
-                <Text style={[styles.cell, styles.cellWidth10]}>{employee.EmployeeID}</Text>
-                <Text style={[styles.cell, styles.cellWidth20]}>{employee.Name}</Text>
-                <Text style={[styles.cell, styles.cellWidth15]}>{employee.PhoneNumber}</Text>
-                <Text style={[styles.cell, styles.cellWidth20]}>{employee.Position}</Text>
-                <Text style={[styles.cell, styles.cellWidth25]}>{employee.Address}</Text>
-                <Text style={[styles.cell, styles.cellWidth10]}>{employee.Salary}</Text>
-              </View>
-            ))}
+    <ScrollView contentContainerStyle={styles.contentContainer}>
+      {employees.map((employee, index) => (
+        <TouchableOpacity
+          key={index}
+          style={[styles.employeeContainer, selectedEmployee === employee && styles.selectedContainer]}
+          onPress={() => handleEmployeePress(employee)}
+        >
+          <View style={styles.employeeHeader}>
+            <Text style={styles.employeeName}>{employee.name}</Text>
+            <TouchableOpacity onPress={() => handleEditEmployee(employee)} style={styles.editIcon}>
+              <Ionicons name="pencil" size={20} color="black" />
+            </TouchableOpacity>
           </View>
-        </ScrollView>
-      )}
-    </View>
+          <Text style={styles.employeeID}>Employee ID: {employee.employee_id}</Text>
+          {selectedEmployee === employee && (
+            <View style={styles.employeeDetails}>
+              <Text style={styles.detail}>Phone Number: {employee.phone}</Text>
+              <Text style={styles.detail}>Position: {employee.position}</Text>
+              <Text style={styles.detail}>Salary: {employee.salary}</Text>
+            </View>
+          )}
+        </TouchableOpacity>
+      ))}
+    </ScrollView>
   );
 };
 
@@ -63,55 +91,49 @@ const windowWidth = Dimensions.get('window').width;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  title: {
-    fontSize: windowWidth < 600 ? 24 : 32, // Set font size based on screen width
-    fontWeight: 'bold',
-    marginBottom: 20,
+  contentContainer: {
+    padding: 20,
   },
-  scrollView: {
-    flex: 1,
-    width: '100%',
-  },
-  table: {
-    width: '100%',
+  employeeContainer: {
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#000000',
+    borderColor: '#ccc',
+    padding: 10,
     borderRadius: 5,
   },
-  tableRow: {
+  selectedContainer: {
+    backgroundColor: '#e0e0e0',
+  },
+  employeeHeader: {
     flexDirection: 'row',
-    borderBottomWidth: 1,
-    borderColor: '#000000',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginBottom: 5,
   },
-  headerCell: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
+  employeeName: {
+    fontSize: 18,
     fontWeight: 'bold',
-    textAlign: 'center',
-    fontSize: windowWidth < 600 ? 16 : 20, // Set font size based on screen width
   },
-  cell: {
-    paddingVertical: 10,
-    paddingHorizontal: 5,
-    textAlign: 'center',
-    fontSize: windowWidth < 600 ? 16 : 20, // Set font size based on screen width
+  employeeID: {
+    fontSize: 16,
+    marginTop: 5,
   },
-  cellWidth10: {
-    width: '10%',
+  employeeDetails: {
+    marginTop: 10,
   },
-  cellWidth20: {
-    width: '20%',
+  detail: {
+    fontSize: 16,
+    marginBottom: 5,
   },
-  cellWidth15: {
-    width: '15%',
+  editIcon: {
+    padding: 5,
   },
-  cellWidth25: {
-    width: '25%',
+  errorText: {
+    fontSize: 18,
+    color: 'red',
   },
 });
 
