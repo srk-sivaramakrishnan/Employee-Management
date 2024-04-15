@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, Picker, TouchableOpacity, FlatList } from 'react-native';
 import axios from 'axios';
+import baseURL from '../auth/connection';
 
 const SearchEmployees = () => {
   const [searchText, setSearchText] = useState('');
@@ -9,7 +10,7 @@ const SearchEmployees = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/search', {
+      const response = await axios.post(`${baseURL}/api/search`, {
         searchText,
         selectedFilter
       });
@@ -24,9 +25,12 @@ const SearchEmployees = () => {
       <View style={styles.employeeContainer}>
         <Text style={styles.employeeText}>Employee ID: {item.employee_id}</Text>
         <Text style={styles.employeeText}>Name: {item.name}</Text>
+        <Text style={styles.employeeText}>Email: {item.email}</Text>
         <Text style={styles.employeeText}>Phone Number: {item.phone}</Text>
+        <Text style={styles.employeeText}>Address: {item.address}</Text>
         <Text style={styles.employeeText}>Position: {item.position}</Text>
         <Text style={styles.employeeText}>Salary: {item.salary}</Text>
+        <Text style={styles.employeeText}>Qualification: {item.qualification}</Text>
       </View>
     );
   };

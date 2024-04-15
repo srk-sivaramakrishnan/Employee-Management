@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
+import baseURL from '../auth/connection';
 
 const LeaveApprovalComponent = () => {
   const [leaveRequests, setLeaveRequests] = useState([]);
@@ -9,7 +10,7 @@ const LeaveApprovalComponent = () => {
   useEffect(() => {
     const fetchLeaveRequests = async () => {
       try {
-        const response = await axios.get('http://192.168.199.131:5000/leave/requests');
+        const response = await axios.get(`${baseURL}/leave/request`);
         setLeaveRequests(response.data);
         setLoading(false);
       } catch (error) {

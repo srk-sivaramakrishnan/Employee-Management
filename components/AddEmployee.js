@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions } from 'react-native';
 import axios from 'axios';
+import baseURL from '../auth/connection';
 
 const AddEmployee = () => {
   const [name, setName] = useState('');
@@ -24,7 +25,7 @@ const AddEmployee = () => {
       salary,
     };
 
-    axios.post('http://192.168.199.131:5000/employee', employeeData)
+    axios.post(`${baseURL}/employee`, employeeData)
       .then(response => {
         console.log('Employee added successfully:', response.data);
         Alert.alert('Success', 'Employee added successfully');

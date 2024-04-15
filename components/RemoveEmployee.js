@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions } from 'react-native';
 import axios from 'axios';
+import baseURL from '../auth/connection';
 
 const RemoveEmployee = () => {
   const [employeeId, setEmployeeId] = useState('');
@@ -14,7 +15,7 @@ const RemoveEmployee = () => {
     // Perform validation if necessary
 
     // Make a DELETE request to remove the employee with reason
-    axios.delete(`http://192.168.199.131:5000/employee/${employeeId}`, { data: { reason } })
+    axios.delete(`${baseURL}/employee/${employeeId}`, { data: { reason } })
       .then(response => {
         console.log('Employee removed successfully:', response.data);
         // Show popup message

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import AddEmployee from '../components/AddEmployee';
-import RemoveEmployee from '../components/RemoveEmployee';
-import EmployeeDetails from '../components/EmployeeDetails';
-import Search from '../components/Search';
+import AddEmployee from '../components/AddEmployee'; // Assuming correct export
+import RemoveEmployee from '../components/RemoveEmployee'; // Assuming correct export
+import EmployeeDetails from '../components/EmployeeDetails'; // Assuming correct export
+import Search from '../components/Search'; // Assuming correct export
 import { MaterialIcons } from '@expo/vector-icons';
 
 const Dashboard = () => {
@@ -20,15 +20,27 @@ const Dashboard = () => {
     setSidebarOpen(false);
   };
 
+  const renderComponent = () => {
+    switch (selectedAction) {
+      case 'AddEmployee':
+        return <AddEmployee />;
+      case 'RemoveEmployee':
+        return <RemoveEmployee />;
+      case 'EmployeeDetails':
+        return <EmployeeDetails />;
+      case 'Search':
+        return <Search />;
+      default:
+        return null;
+    }
+  };
+
   return (
     <View style={styles.container}>
       {/* Main content */}
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {/* Content based on selected action */}
-        {selectedAction === 'AddEmployee' && <AddEmployee />}
-        {selectedAction === 'RemoveEmployee' && <RemoveEmployee />}
-        {selectedAction === 'EmployeeDetails' && <EmployeeDetails />}
-        {selectedAction === 'Search' && <Search />}
+        {renderComponent()}
       </ScrollView>
 
       {/* Hamburger menu */}

@@ -94,22 +94,29 @@ app.get('/api/employees', (req, res) => {
   });
 });
 
-// Route to fetch a list of employees
-app.get('/api/employees', (req, res) => {
-  // Construct SQL query to fetch all employees from the database
-  const query = 'SELECT * FROM employees';
+// Route to update employee details
+app.post('/api/update', (req, res) => {
+  const { employee_id, name, email, phone, address, position, salary, qualification } = req.body;
 
-  // Execute the query to fetch employees from the database
-  connection.query(query, (error, results) => {
-    if (error) {
-      console.error('Error querying MySQL:', error);
-      return res.status(500).json({ error: 'Internal server error' });
+  // Check if all required fields are provided
+  if (!employee_id || !name || !phone || !position || !salary) {
+    return res.status(400).json({ error: 'All fields are required' });
+  }
+
+  // Perform the update operation in the database
+  connection.query(
+    'UPDATE Employees SET name = ?, email = ?, phone = ?, address = ?, position = ?, salary = ?, qualification = ? WHERE employee_id = ?',
+    [name, email, phone, address, position, salary, qualification, employee_id],
+    (err, results) => {
+      if (err) {
+        console.error('Error updating employee:', err);
+        return res.status(500).json({ error: 'Internal Server Error' });
+      }
+      res.status(200).json({ message: 'Employee details updated successfully' });
     }
-
-    // Send the fetched employees as a response
-    res.json(results);
-  });
+  );
 });
+
 
 
 //Search
@@ -137,16 +144,13 @@ app.post('/api/search', (req, res) => {
   });
 });
 
-// Route to get the ID of the selected employee
-app.get('/api/getid', (req, res) => {
-  // Extract the employee ID from the query parameters
-  const employeeId = req.query.id;
-
-  // Assuming you have some logic to fetch the employee details from the database based on the ID
-  // For demonstration purposes, let's just send back the received employee ID
-  res.json({ employeeId });
+// Route to handle POST request to /api/getid
+app.post('/api/getid', (req, res) => {
+  const { id } = req.body;
+  console.log('Received employee ID:', id);
+  // You can perform further operations with the employee ID here
+  res.status(200).json({ message: 'Employee ID received successfully' });
 });
-
 
 // Start the server
 const PORT = process.env.PORT || 5000;
