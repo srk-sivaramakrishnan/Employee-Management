@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(20, 30, 70, 0.5)', // Previous background color
     },
     modalContent: {
         backgroundColor: '#fff',
@@ -99,6 +99,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: '#333', // Previous text color
     },
     input: {
         borderWidth: 1,
@@ -106,7 +107,10 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         padding: 10,
         marginBottom: 10,
+        backgroundColor: '#fff', // Input background color
+        color: '#333', // Input text color
     },
 });
+
 
 export default EditEmployee;

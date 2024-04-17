@@ -58,13 +58,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: '#141E46',
     paddingHorizontal: 20, // Add horizontal padding to the container
   },
   heading: {
     fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 20,
+    color: '#fff',
   },
   input: {
     width: '100%', // Set input width to 100% of parent width
@@ -74,6 +75,8 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 20,
+    backgroundColor: '#fff', // Set input background color
+    color: '#333',
   },
 });
 

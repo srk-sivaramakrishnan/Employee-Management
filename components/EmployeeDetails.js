@@ -97,6 +97,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#141E46', // Set background color
   },
   contentContainer: {
     padding: 20,
@@ -107,6 +108,7 @@ const styles = StyleSheet.create({
     borderColor: '#ccc',
     padding: 10,
     borderRadius: 5,
+    backgroundColor: '#fff', // Set background color
   },
   selectedContainer: {
     backgroundColor: '#e0e0e0',
@@ -120,10 +122,12 @@ const styles = StyleSheet.create({
   employeeName: {
     fontSize: 18,
     fontWeight: 'bold',
+    color: '#333', // Set text color
   },
   employeeID: {
     fontSize: 16,
     marginTop: 5,
+    color: '#333', // Set text color
   },
   employeeDetails: {
     marginTop: 10,
@@ -131,6 +135,7 @@ const styles = StyleSheet.create({
   detail: {
     fontSize: 16,
     marginBottom: 5,
+    color: '#333', // Set text color
   },
   editIcon: {
     padding: 5,

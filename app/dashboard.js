@@ -17,7 +17,7 @@ const Dashboard = () => {
 
   const handleSidebarLinkClick = (action) => {
     setSelectedAction(action);
-    setSidebarOpen(false);
+    setSidebarOpen(false); // Close the sidebar when a link is clicked
   };
 
   const renderComponent = () => {
@@ -36,7 +36,7 @@ const Dashboard = () => {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: '#141E46' }]}>
       {/* Main content */}
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         {/* Content based on selected action */}
@@ -45,7 +45,7 @@ const Dashboard = () => {
 
       {/* Hamburger menu */}
       <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
-        <Ionicons name="menu" size={24} color="black" />
+        <Ionicons name="menu" size={24} color="white" />
       </TouchableOpacity>
 
       {/* Sidebar */}
@@ -53,28 +53,28 @@ const Dashboard = () => {
         <View style={styles.sidebar}>
           {/* Close button for sidebar */}
           <TouchableOpacity onPress={toggleSidebar} style={styles.closeButton}>
-            <Ionicons name="close" size={24} color="black" />
+            <Ionicons name="close" size={24} color="white" />
           </TouchableOpacity>
 
           {/* Sidebar content */}
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('AddEmployee')}>
-            <Ionicons name="person-add-outline" size={24} color="black" />
+            <Ionicons name="person-add-outline" size={24} color="#141E46" />
             <Text style={styles.linkText}>Add Employee</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('RemoveEmployee')}>
-            <Ionicons name="trash-outline" size={24} color="black" />
+            <Ionicons name="trash-outline" size={24} color="#141E46" />
             <Text style={styles.linkText}>Remove Employee</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('EmployeeDetails')}>
-            <Ionicons name="list-outline" size={24} color="black" />
+            <Ionicons name="list-outline" size={24} color="#141E46" />
             <Text style={styles.linkText}>Employee Details</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Search')}>
-            <Ionicons name="search-outline" size={24} color="black" />
+            <Ionicons name="search-outline" size={24} color="#141E46" />
             <Text style={styles.linkText}>Search</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Leave')}>
-            <MaterialIcons name="mail-outline" size={24} color="black" />
+            <MaterialIcons name="mail-outline" size={24} color="#141E46" />
             <Text style={styles.linkText}>Leave</Text>
           </TouchableOpacity>
         </View>
@@ -121,6 +121,7 @@ const styles = StyleSheet.create({
   linkText: {
     fontSize: 12,
     marginLeft: 10,
+    color: '#141E46',
   },
 });
 

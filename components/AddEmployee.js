@@ -77,7 +77,6 @@ const AddEmployee = () => {
 };
 
 const screenWidth = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -85,7 +84,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#fff',
+    backgroundColor: '#141E46', // Changed background color
   },
   inputContainer: {
     width: screenWidth * 0.8,
@@ -95,23 +94,23 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#333',
+    color: '#fff', // Changed text color
   },
   label: {
     fontSize: 16,
     marginBottom: 5,
     fontWeight: 'bold',
-    color: '#333',
+    color: '#fff', // Changed text color
     textAlign: 'left',
   },
   input: {
     width: '100%',
     height: 40,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#fff', // Changed input box color
     borderRadius: 5,
     paddingHorizontal: 10,
-    color: '#333',
+    color: '#fff', // Changed text color
   },
 });
 

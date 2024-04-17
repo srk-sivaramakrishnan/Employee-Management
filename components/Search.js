@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TextInput, Picker, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, View, TextInput, Picker, TouchableOpacity, FlatList, Text } from 'react-native';
 import axios from 'axios';
 import baseURL from '../auth/connection';
 
@@ -37,6 +37,7 @@ const SearchEmployees = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.heading}>Search an employee</Text> {/* Heading */}
       <View style={styles.searchContainer}>
         <TextInput
           style={styles.input}
@@ -72,6 +73,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    backgroundColor: '#141E46', // Set background color
+  },
+  heading: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color: '#fff', // Set text color
   },
   searchContainer: {
     flexDirection: 'row',
@@ -85,10 +93,13 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginRight: 10,
     paddingHorizontal: 10,
+    backgroundColor: '#fff', // Set background color
+    color: '#333', // Set text color
   },
   filterPicker: {
     width: 120,
     height: 40,
+    color: '#333', // Set text color
   },
   searchButton: {
     backgroundColor: 'blue',
@@ -105,10 +116,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
+    backgroundColor: '#fff', // Set background color
   },
   employeeText: {
     fontSize: 16,
     marginBottom: 5,
+    color: '#333', // Set text color
   },
 });
 
