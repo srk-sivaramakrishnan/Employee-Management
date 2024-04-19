@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     borderColor: '#fff', // Changed input box color
     borderRadius: 5,
     paddingHorizontal: 10,
-    color: '#fff', // Changed text color
+    backgroundColor:'white',
   },
 });
 

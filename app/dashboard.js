@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import AddEmployee from '../components/AddEmployee'; // Assuming correct export
-import RemoveEmployee from '../components/RemoveEmployee'; // Assuming correct export
-import EmployeeDetails from '../components/EmployeeDetails'; // Assuming correct export
-import Search from '../components/Search'; // Assuming correct export
+import Home from '../components/Home';
+import AddEmployee from '../components/AddEmployee';
+import RemoveEmployee from '../components/RemoveEmployee';
+import EmployeeDetails from '../components/EmployeeDetails';
+import SearchEmployees from '../components/Search'; // Corrected import
 import { MaterialIcons } from '@expo/vector-icons';
+import { Picker } from '@react-native-picker/picker';
+import { useNavigation } from '@react-navigation/native'; // Corrected import
 
 const Dashboard = () => {
+  const navigation = useNavigation();
+
   const [selectedAction, setSelectedAction] = useState(null);
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [showHomeContent, setShowHomeContent] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
@@ -17,7 +23,12 @@ const Dashboard = () => {
 
   const handleSidebarLinkClick = (action) => {
     setSelectedAction(action);
-    setSidebarOpen(false); // Close the sidebar when a link is clicked
+    setShowHomeContent(action === 'Home');
+    setSidebarOpen(false);
+  };
+
+  const handleLogout = () => {
+    navigation.navigate('Login');
   };
 
   const renderComponent = () => {
@@ -29,7 +40,7 @@ const Dashboard = () => {
       case 'EmployeeDetails':
         return <EmployeeDetails />;
       case 'Search':
-        return <Search />;
+        return <SearchEmployees />;
       default:
         return null;
     }
@@ -37,26 +48,27 @@ const Dashboard = () => {
 
   return (
     <View style={[styles.container, { backgroundColor: '#141E46' }]}>
-      {/* Main content */}
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
-        {/* Content based on selected action */}
+        <Text style={styles.companyName}>KGISL EMPLOYEE MANAGEMENT</Text>
+        {showHomeContent && <Home />}
         {renderComponent()}
       </ScrollView>
 
-      {/* Hamburger menu */}
       <TouchableOpacity onPress={toggleSidebar} style={styles.menuButton}>
         <Ionicons name="menu" size={24} color="white" />
       </TouchableOpacity>
 
-      {/* Sidebar */}
       <Modal visible={sidebarOpen} transparent={true} animationType="slide">
         <View style={styles.sidebar}>
-          {/* Close button for sidebar */}
           <TouchableOpacity onPress={toggleSidebar} style={styles.closeButton}>
             <Ionicons name="close" size={24} color="white" />
           </TouchableOpacity>
 
-          {/* Sidebar content */}
+          <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Home')}>
+            <Ionicons name="home-outline" size={24} color="#141E46" />
+            <Text style={styles.linkText}>Home</Text>
+          </TouchableOpacity>
+
           <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('AddEmployee')}>
             <Ionicons name="person-add-outline" size={24} color="#141E46" />
             <Text style={styles.linkText}>Add Employee</Text>
@@ -73,9 +85,10 @@ const Dashboard = () => {
             <Ionicons name="search-outline" size={24} color="#141E46" />
             <Text style={styles.linkText}>Search</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.sidebarLink} onPress={() => handleSidebarLinkClick('Leave')}>
-            <MaterialIcons name="mail-outline" size={24} color="#141E46" />
-            <Text style={styles.linkText}>Leave</Text>
+
+          <TouchableOpacity style={styles.sidebarLink} onPress={handleLogout}>
+            <Ionicons name="log-out-outline" size={24} color="#141E46" />
+            <Text style={styles.linkText}>Logout</Text>
           </TouchableOpacity>
         </View>
       </Modal>
@@ -92,6 +105,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  companyName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: 'white',
+    marginBottom: 20,
   },
   menuButton: {
     position: 'absolute',

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Picker, TouchableOpacity, FlatList, Text } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity, FlatList } from 'react-native';
 import axios from 'axios';
 import baseURL from '../auth/connection';
+import { Picker } from '@react-native-picker/picker'; // Corrected import
 
 const SearchEmployees = () => {
   const [searchText, setSearchText] = useState('');
@@ -37,29 +38,26 @@ const SearchEmployees = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.heading}>Search an employee</Text> {/* Heading */}
-      <View style={styles.searchContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Search employees"
-          value={searchText}
-          onChangeText={(text) => setSearchText(text)}
-        />
-        <Picker
-          style={styles.filterPicker}
-          selectedValue={selectedFilter}
-          onValueChange={(itemValue) => setSelectedFilter(itemValue)}
-        >
-          <Picker.Item label="Name" value="Name" />
-          <Picker.Item label="Employee ID" value="EmployeeID" />
-          <Picker.Item label="Phone Number" value="PhoneNumber" />
-          <Picker.Item label="Position" value="Position" />
-          <Picker.Item label="Salary" value="Salary" />
-        </Picker>
-        <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
-          <Text style={styles.searchButtonText}>Search</Text>
-        </TouchableOpacity>
-      </View>
+      <TextInput
+        style={styles.input}
+        placeholder="Search employees"
+        value={searchText}
+        onChangeText={(text) => setSearchText(text)}
+      />
+      <Picker
+        style={styles.filterPicker}
+        selectedValue={selectedFilter}
+        onValueChange={(itemValue) => setSelectedFilter(itemValue)}
+      >
+        <Picker.Item label="Name" value="Name" />
+        <Picker.Item label="Employee ID" value="EmployeeID" />
+        <Picker.Item label="Phone Number" value="PhoneNumber" />
+        <Picker.Item label="Position" value="Position" />
+        <Picker.Item label="Salary" value="Salary" />
+      </Picker>
+      <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+        <Text style={styles.searchButtonText}>Search</Text>
+      </TouchableOpacity>
       <FlatList
         data={searchResults}
         renderItem={renderEmployee}
@@ -73,55 +71,42 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    backgroundColor: '#141E46', // Set background color
-  },
-  heading: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-    color: '#fff', // Set text color
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 20,
   },
   input: {
-    flex: 1,
     height: 40,
-    borderColor: 'gray',
+    borderColor: 'white',
+    backgroundColor: 'white',
     borderWidth: 1,
-    marginRight: 10,
+    marginBottom: 10,
     paddingHorizontal: 10,
-    backgroundColor: '#fff', // Set background color
-    color: '#333', // Set text color
   },
   filterPicker: {
-    width: 120,
     height: 40,
-    color: '#333', // Set text color
+    color: 'white',
+    marginBottom: 10,
   },
   searchButton: {
     backgroundColor: 'blue',
     paddingVertical: 10,
+    alignItems: 'center',
     paddingHorizontal: 15,
     borderRadius: 5,
+    marginBottom: 10,
   },
   searchButtonText: {
     color: 'white',
   },
   employeeContainer: {
     borderWidth: 1,
-    borderColor: 'gray',
+    borderColor: 'white',
+    backgroundColor: 'white', 
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
-    backgroundColor: '#fff', // Set background color
   },
   employeeText: {
     fontSize: 16,
     marginBottom: 5,
-    color: '#333', // Set text color
   },
 });
 

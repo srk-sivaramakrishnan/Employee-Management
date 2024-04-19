@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         padding: 10,
         marginBottom: 10,
         backgroundColor: '#fff', // Input background color
-        color: '#333', // Input text color
+       
     },
 });
 
