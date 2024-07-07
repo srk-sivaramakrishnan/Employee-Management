@@ -1,9 +1,11 @@
+// EmployeesList.js
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Modal } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import baseURL from '../auth/connection';
 import EditEmployee from './EditEmployee'; // Import the new component
+import { createPDF, createCSV } from './FileGenerator'; // Import file generation functions
 
 const EmployeesList = () => {
   const [employees, setEmployees] = useState([]);
@@ -27,10 +29,6 @@ const EmployeesList = () => {
     };
 
     fetchData();
-
-    return () => {
-      // Cleanup code here (if needed)
-    };
   }, []);
 
   const handleEmployeePress = (employee) => {
@@ -53,6 +51,26 @@ const EmployeesList = () => {
     setEmployees(updatedEmployees);
   };
 
+  const handleDownloadPDF = async () => {
+    try {
+      await createPDF(employees);
+      Alert.alert('Success', 'PDF has been generated');
+    } catch (error) {
+      console.error('Error creating PDF:', error);
+      Alert.alert('Error', 'Failed to create PDF');
+    }
+  };
+
+  const handleDownloadCSV = async () => {
+    try {
+      await createCSV(employees);
+      Alert.alert('Success', 'CSV has been generated');
+    } catch (error) {
+      console.error('Error creating CSV:', error);
+      Alert.alert('Error', 'Failed to create CSV');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -66,13 +84,16 @@ const EmployeesList = () => {
             <View style={styles.employeeHeader}>
               <Text style={styles.employeeName}>{employee.name}</Text>
               <TouchableOpacity onPress={() => handleEditEmployee(employee)} style={styles.editIcon}>
-                <Ionicons name="pencil" size={20} color="black" />
+                <Ionicons name="pencil" size={20} color="#E4C59E" />
               </TouchableOpacity>
             </View>
             <Text style={styles.employeeID}>Employee ID: {employee.employee_id}</Text>
             {selectedEmployee === employee && (
               <View style={styles.employeeDetails}>
                 <Text style={styles.detail}>Phone Number: {employee.phone}</Text>
+                <Text style={styles.detail}>Email: {employee.email}</Text>
+                <Text style={styles.detail}>Address: {employee.address}</Text>
+                <Text style={styles.detail}>Qualification: {employee.qualification}</Text>
                 <Text style={styles.detail}>Position: {employee.position}</Text>
                 <Text style={styles.detail}>Salary: {employee.salary}</Text>
               </View>
@@ -80,6 +101,14 @@ const EmployeesList = () => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <View style={styles.downloadButtonsContainer}>
+        <TouchableOpacity style={styles.downloadButton} onPress={handleDownloadPDF}>
+          <Text style={styles.downloadButtonText}>Download as PDF</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.downloadButton} onPress={handleDownloadCSV}>
+          <Text style={styles.downloadButtonText}>Download as CSV</Text>
+        </TouchableOpacity>
+      </View>
 
       {/* Edit Modal */}
       <EditEmployee
@@ -97,7 +126,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#141E46', // Set background color
+    backgroundColor: '#E4C59E',
   },
   contentContainer: {
     padding: 20,
@@ -105,13 +134,13 @@ const styles = StyleSheet.create({
   employeeContainer: {
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: '#fff',
     padding: 10,
     borderRadius: 5,
-    backgroundColor: '#fff', // Set background color
+    backgroundColor: '#803D3B',
   },
   selectedContainer: {
-    backgroundColor: '#e0e0e0',
+    backgroundColor: '#803D3B',
   },
   employeeHeader: {
     flexDirection: 'row',
@@ -122,23 +151,41 @@ const styles = StyleSheet.create({
   employeeName: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#333', // Set text color
+    color: '#E4C59E',
   },
   employeeID: {
     fontSize: 16,
     marginTop: 5,
-    color: '#333', // Set text color
+    color: '#E4C59E',
   },
   employeeDetails: {
     marginTop: 10,
+    color: '#E4C59E',
   },
   detail: {
     fontSize: 16,
     marginBottom: 5,
-    color: '#333', // Set text color
+    color: '#E4C59E',
   },
   editIcon: {
     padding: 5,
+  },
+  downloadButtonsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    width: '100%',
+    marginTop: 20,
+  },
+  downloadButton: {
+    backgroundColor: '#803D3B',
+    paddingVertical: 10,
+    marginVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 5,
+  },
+  downloadButtonText: {
+    color: 'white',
+    fontSize: 16,
   },
 });
 

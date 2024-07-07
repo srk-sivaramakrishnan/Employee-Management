@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   input: {
+    width: '100%',
     height: 40,
     borderColor: 'white',
     backgroundColor: 'white',
@@ -81,12 +82,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   filterPicker: {
-    height: 40,
-    color: 'white',
+    height: 30,
+    backgroundColor:'white',
+    color: '#803D3B',
+    borderColor:'black',
     marginBottom: 10,
   },
   searchButton: {
-    backgroundColor: 'blue',
+    backgroundColor: '#803D3B',
     paddingVertical: 10,
     alignItems: 'center',
     paddingHorizontal: 15,
@@ -99,12 +102,13 @@ const styles = StyleSheet.create({
   employeeContainer: {
     borderWidth: 1,
     borderColor: 'white',
-    backgroundColor: 'white', 
+    backgroundColor: '#803D3B', 
     borderRadius: 5,
     padding: 10,
     marginBottom: 10,
   },
   employeeText: {
+    color: '#E4C59E',
     fontSize: 16,
     marginBottom: 5,
   },

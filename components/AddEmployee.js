@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Dimensions } from 'react-native';
 import axios from 'axios';
 import baseURL from '../auth/connection';
 
@@ -71,7 +71,9 @@ const AddEmployee = () => {
       {renderInputWithLabel('Qualification:', qualification, setQualification)}
       {renderInputWithLabel('Position:', position, setPosition)}
       {renderInputWithLabel('Salary:', salary, setSalary)}
-      <Button title="Add Employee" onPress={handleAddEmployee} />
+      <TouchableOpacity style={styles.button} onPress={handleAddEmployee}>
+        <Text style={styles.buttonText}>Add Employee</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -84,7 +86,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20,
-    backgroundColor: '#141E46', // Changed background color
+    backgroundColor: '#E4C59E', // Changed background color
   },
   inputContainer: {
     width: screenWidth * 0.8,
@@ -94,13 +96,13 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#fff', // Changed text color
+    color: '#803D3B', // Changed text color
   },
   label: {
     fontSize: 16,
     marginBottom: 5,
     fontWeight: 'bold',
-    color: '#fff', // Changed text color
+    color: '#803D3B', // Changed text color
     textAlign: 'left',
   },
   input: {
@@ -110,7 +112,21 @@ const styles = StyleSheet.create({
     borderColor: '#fff', // Changed input box color
     borderRadius: 5,
     paddingHorizontal: 10,
-    backgroundColor:'white',
+    backgroundColor: 'white',
+  },
+  button: {
+    width: '100%',
+    height: 40,
+    backgroundColor: '#803D3B', // Changed button color
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 });
 

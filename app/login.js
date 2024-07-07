@@ -60,13 +60,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#141E46', // Changed background color
+    backgroundColor: '#E4C59E', // Changed background color
   },
   title: {
+    color: '#803D3B',
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
-    color: '#fff', // Changed text color
   },
   input: {
     width: '80%',
@@ -76,12 +76,12 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 15,
-    backgroundColor:'white',
+    backgroundColor: 'white',
   },
   button: {
     width: '80%',
     height: 50,
-    backgroundColor: '#007bff', // Changed button color
+    backgroundColor: '#803D3B', // Changed button color
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 5,

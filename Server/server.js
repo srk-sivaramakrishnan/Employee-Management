@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: '*********', //Your Password
+  password: 'shapna0327.',
   database: 'employee',
 });
 
@@ -46,6 +46,11 @@ app.delete('/employee/:id', (req, res) => {
   const employeeId = req.params.id;
   const { reason } = req.body;
 
+  // Check if reason is provided
+  if (!reason) {
+    return res.status(400).json({ error: 'Reason is required' });
+  }
+
   connection.query(
     'SELECT * FROM Employees WHERE employee_id = ?',
     [employeeId],
@@ -59,6 +64,9 @@ app.delete('/employee/:id', (req, res) => {
         return res.status(404).json({ error: 'Employee not found' });
       }
 
+      // Log the reason for termination
+      console.log(`Employee ID: ${employeeId} is being removed for reason: ${reason}`);
+
       connection.query(
         'DELETE FROM Employees WHERE employee_id = ?',
         [employeeId],
@@ -67,8 +75,8 @@ app.delete('/employee/:id', (req, res) => {
             console.error('Error removing employee:', err);
             return res.status(500).json({ error: 'Internal Server Error' });
           }
-          console.log('Employee Terminated successfully');
-          res.status(200).json({ message: 'Employee Terminated successfully' });
+          console.log('Employee removed successfully');
+          res.status(200).json({ message: 'Employee removed successfully' });
         }
       );
     }

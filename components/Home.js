@@ -16,13 +16,12 @@ const Home = () => {
           <View style={styles.companyDescription}>
             <Text style={styles.descriptionTitle}>ABOUT US:</Text>
             <Text style={styles.descriptionContent}>
-              - KGiSL is a BFSI centric multiproduct Enterprise Software company focused on Insurance, Capital Markets, & Wealth Management segments.{"\n"}
-              - KGiSL by roots believe in being empathetic to customers and offering products and services that deliver incremental business outcome.{"\n"}
-              - Harnessing the power of Machine Learning (ML), Artificial Intelligence (AI), Analytics, Data Science and Cloud to empower our clients through our products and deliver Empathy based Outcomes backed by next Generation Customer Experience.{"\n"}
-              - Continuously innovating and adapting to the evolving needs of the financial services industry.{"\n"}
-              - Providing cutting-edge solutions that streamline processes and enhance efficiency for our clients.{"\n"}
-              - Committed to maintaining the highest standards of quality and integrity in everything we do.{"\n"}
-              - Cultivating long-term partnerships with our clients based on trust, reliability, and mutual success.
+              {'\u2022'} * Add Employee: Easily add new employees to the system, capturing all necessary details including name, contact information, position, and qualifications.{"\n\n"}
+              {'\u2022'} * Remove Employee: Remove employee records from the system efficiently and securely.{"\n\n"}
+              {'\u2022'} * Search Employee: Quickly search and find employee details using various filters such as name, employee ID, phone number, and position.{"\n\n"}
+              {'\u2022'} * Export Employee Details: Export employee details in PDF or CSV format for record-keeping and reporting purposes.{"\n\n"}
+              {'\u2022'} * User-Friendly Interface: Our system is designed to be user-friendly and intuitive, making it easy for HR teams to manage employee data effectively.{"\n\n"}
+              {'\u2022'} * Secure and Reliable: We prioritize data security and ensure that all employee information is stored securely and is accessible only to authorized personnel.
             </Text>
           </View>
         </View>
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: '#141E46',
+    backgroundColor: '#E4C59E',
   },
   companyInfo: {
     alignItems: 'center',
@@ -57,12 +56,12 @@ const styles = StyleSheet.create({
   descriptionTitle: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: 'white',
+    color: '#803D3B',
     marginBottom: 10,
   },
   descriptionContent: {
     fontSize: 23,
-    color: 'white',
+    color: '#322C2B',
     paddingTop: 10,
   },
 });
